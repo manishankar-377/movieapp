@@ -1,25 +1,21 @@
 import React from 'react';
 import './css/App.css';
-import NavBar from "./navbar/NavBar";
+import NavBar from "./components/NavBar";
+import MovieCard from "./components/MovieCard";
+import Home from "./pages/Home";
 
 function App() {
-  return (
-    <div className="App">
-        <NavBar />
-      <h1>Welcome to React</h1>
-        <Text display="Hello" header={1}/>
-        <Text display="world" header={2}/>
-    </div>
-  );
-}
 
-
-function Text({display, header}: {display: string, header: number}) {
+    const movie = 2;
     return (
-        <div>
-        <h2>{header}</h2>
-        <p>{display}</p>
+        <div className="App">
+            <NavBar/>
+            <h1>Welcome to React</h1>
+            {movie == 1 ? (<MovieCard movie={{title: "Mani Movie", release_date: "2025"}}/>) : (
+                <MovieCard movie={{title: "Mani Movie 2", release_date: "2026"}}/>)}
+
         </div>
     );
 }
+
 export default App;
