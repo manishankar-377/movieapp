@@ -6,23 +6,16 @@ import {Routes, Route} from "react-router-dom";
 import Favourites from "./pages/Favourites";
 
 function App() {
-
-    const movie = 2;
     return (
-        <main className="main-content">
-
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/favourites" element={<Favourites />} />
-            </Routes>
-        </main>
-
-            /*<div className="App">
+        <div>
             <NavBar/>
-            <h1>Welcome to React</h1>
-            <Home />
-
-        </div>*/
+            <main className="main-content">
+                <Routes>
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="/favourites" element={<Favourites/>}/>
+                </Routes>
+            </main>
+        </div>
     );
 }
 
