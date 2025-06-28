@@ -1,32 +1,44 @@
 import "../css/MovieCard.css"
-import {useMovieContext} from "../contexts/MovieContext";
+        import { useMovieContext } from "../contexts/MovieContext"
 
-function MovieCard({movie}) {
-    const {addFavourite, removeFavourite, isFavourite} = useMovieContext();
-const favorite = isFavourite(movie.id);
-    function onFavouriteClick(e) {
-        e.stopPropagation(); // Prevent click from propagating to the card
-        if (favorite) {
-            removeFavourite(movie.id);
-        } else {
-            addFavourite(movie);
+        interface Movie {
+            id: number
+            title: string
+            poster_path: string
+            release_date?: string
+            // Add other fields as needed
         }
-    }
 
-    return (
-        <div className="movie-card">
-            <div className="movie-poster">
-                <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title}/>
-                <div className="movie-overlay"></div>
-                <button className={`favorite-btn ${favorite? "active": ""}`} onClick={onFavouriteClick}>♥</button>
-            </div>
-            <div className="movie-info">
-                <h3>{movie.title}</h3>
-                <p>{movie.release_date?.split("-")[0]}</p>
-                <p>{movie.overview}</p>
-            </div>
-        </div>
-    );
-}
+        interface MovieCardProps {
+            movie: Movie
+        }
 
-export default MovieCard;
+        function MovieCard({movie}: MovieCardProps) {
+            const {isFavorite, addToFavorites, removeFromFavorites} = useMovieContext()
+            const favorite = isFavorite(movie.id)
+
+            function onFavoriteClick(e: React.MouseEvent<HTMLButtonElement>) {
+                e.preventDefault()
+                if (favorite) removeFromFavorites(movie.id)
+                else addToFavorites(movie)
+            }
+
+            return (
+                <div className="movie-card">
+                    <div className="movie-poster">
+                        <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title}/>
+                        <div className="movie-overlay">
+                            <button className={`favorite-btn ${favorite ? "active" : ""}`} onClick={onFavoriteClick}>
+                                ♥
+                            </button>
+                        </div>
+                    </div>
+                    <div className="movie-info">
+                        <h3>{movie.title}</h3>
+                        <p>{movie.release_date?.split("-")[0]}</p>
+                    </div>
+                </div>
+            )
+        }
+
+        export default MovieCard

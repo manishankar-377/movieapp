@@ -2,6 +2,8 @@
   padding: 2rem 0;
   width: 100%;
   box-sizing: border-box;
+  background-color: #22223b; /* Deep blue */
+  min-height: 100vh;
 }
 
 .search-form {
@@ -18,30 +20,32 @@
   padding: 0.75rem 1rem;
   border: none;
   border-radius: 4px;
-  background-color: #333;
-  color: white;
+  background-color: #232946; /* Charcoal */
+  color: #f2e9e4; /* Off-white */
   font-size: 1rem;
 }
 
 .search-input:focus {
   outline: none;
-  box-shadow: 0 0 0 2px #666;
+  box-shadow: 0 0 0 2px #ffd700; /* Gold */
 }
 
 .search-button {
   padding: 0.75rem 1.5rem;
-  background-color: #e50914;
-  color: white;
+  background-color: #ffd700; /* Gold */
+  color: #22223b; /* Deep blue */
   border-radius: 4px;
   font-weight: 500;
-  transition: background-color 0.2s;
+  border: none;
+  transition: background-color 0.2s, color 0.2s;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .search-button:hover {
-  background-color: #f40612;
+  background-color: #4a4e69; /* Muted indigo */
+  color: #f2e9e4; /* Off-white */
 }
-
 
 @media (max-width: 639px) {
   .home {

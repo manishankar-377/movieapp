@@ -5,4 +5,16 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  background-color: #22223b; /* Deep blue */
+  color: #f2e9e4; /* Off-white */
+  box-shadow: 0 2px 8px rgba(34, 34, 59, 0.08);
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 1rem;
+    border-radius: 0;
+    box-shadow: none;
+  }
 }
