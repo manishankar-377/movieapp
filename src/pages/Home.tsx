@@ -1,23 +1,62 @@
 import MovieCard from "../components/MovieCard";
-import {useState} from "react";
+import React, {useState, useEffect} from "react";
+import {searchMovies, getPopularMovies} from "../services/api";
 import "../css/Home.css";
 
 
 function Home() {
 
     const [searchQuery, setSearchQuery] = useState("");
+    const [movies, setMovies] = useState([]);
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState(true);
 
-    const movies = [
-        {id: 1, title: "Inception", release_date: 2010},
-        {id: 2, title: "The Dark Knight", release_date: 2008},
-        {id: 3, title: "Interstellar", release_date: 2014}
-    ];
+    useEffect(() => {
+        const loadPopularMovies = async () => {
+            try {
+                const popularMovies = await getPopularMovies();
+                setMovies(popularMovies);
+            } catch (error) {
+                console.error("Failed to fetch popular movies:", error);
+                setError("Failed to fetch popular movies.");
+            }
+            finally {
+                setLoading(false);
+            }
+        }
+        loadPopularMovies();
+    }, []);
 
-    const handleSearch = (e) => {
+
+    const handleSearch = async (e: React.FormEvent<HTMLElement>) => {
         e.preventDefault();
-        alert(searchQuery)
-        setSearchQuery("")
-    }
+        if (!searchQuery.trim()) {
+            setError("Please enter a search query.");
+            return;
+        }
+        if (loading){
+            setError("Please wait until the current search is complete.");
+            return;
+        }
+        setLoading(true);
+        try {
+            const searchResults = await searchMovies(searchQuery);
+            if (searchResults.length === 0) {
+                setError("No movies found for your search query.");
+            } else {
+                setMovies(searchResults);
+                setError(null);
+            }
+
+        }
+        catch (error) {
+            console.error("Failed to search movies:", error);
+            setError("Failed to search movies.");
+        }
+        finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="home">
@@ -31,14 +70,16 @@ function Home() {
                 />
                 <button type="submit" className="search-button">Search</button>
             </form>
-            <div className="movies-grid">
-                {movies.map(
-                    (movie) =>
-                    movie.title.toLowerCase().startsWith(searchQuery) && (
-                        <MovieCard movie={movie} key={movie.id}/>
-                    )
+
+            {error && <div className="error-message">{error}</div>}
+
+            {loading ? (<div className="loading">Loading...</div>) : (<div className="movies-grid">
+                {movies.map((movie) => (
+                            <MovieCard movie={movie} key={movie.id}/>
+                        )
                 )}
-            </div>
+            </div>)}
+
 
         </div>
     )
